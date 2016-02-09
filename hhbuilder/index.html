@@ -57,6 +57,7 @@
               error.className = "error";
           var form = document.getElementsByTagName("form")[0];
           var household = document.getElementsByClassName("household")[0];
+          var debug = document.getElementsByClassName("debug")[0];
           var makeError = function(message){
             error.remove();
             error.innerHTML = message;
@@ -139,7 +140,8 @@
                 json["member " + i][attributes[j].firstChild.innerHTML] = attributes[j].lastChild.innerHTML;
               }
             }
-            console.log(json)
+            debug.innerHTML = JSON.stringify(json);
+            debug.style.display = "block";
           });
         </script>
     </body>
