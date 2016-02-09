@@ -52,11 +52,13 @@
         <script>
           var age = document.querySelector("[name=age]");
           var rel = document.querySelector("[name=rel]");
+          var smoker = document.querySelector("[name=smoker]");
           var error = document.createElement("div");
-              error.className = "error"
-          var form = document.getElementsByTagName("form")[0]
+              error.className = "error";
+          var form = document.getElementsByTagName("form")[0];
+          var household = document.getElementsByClassName("household")[0];
           var makeError = function(message){
-            error.remove()
+            error.remove();
             error.innerHTML = message;
             form.parentNode.insertBefore(error, form)
             return false;
@@ -67,10 +69,57 @@
           var relValidates = function(){
             return (rel.value) ? true : makeError("Please enter a relationship");
           };
+          var getLabel = function(formEl){
+            var label = document.createElement("span");
+            label.className = "label";
+            label.innerHTML = formEl.previousSibling.textContent.trim() + " ";
+            return label;
+          };
+          var getValue = function(formEl){
+            var value = document.createElement("span");
+            value.className = "value";
+            if(formEl.type === "checkbox"){
+              value.innerHTML = formEl.checked;
+            }else{
+              value.innerHTML = formEl.value;
+            }
+            return value;
+          };
+          var addAttribute = function(formEl, list){
+            var attribute = document.createElement("li");
+            var label = getLabel(formEl);
+            var value = getValue(formEl);
+            attribute.appendChild(label);
+            attribute.appendChild(value);
+            list.appendChild(attribute);
+          };
+          var addMember = function(){
+            var member = document.createElement("div");
+                member.className = "member";
+            var title = document.createElement("h2");
+                title.innerHTML = "Member";
+            var attributes = document.createElement("ul");
+            var memberAge = addAttribute(age, attributes);
+            var memberRel = addAttribute(rel, attributes);
+            var memberSmoker = addAttribute(smoker, attributes);
+            var removeBtn = document.createElement("button");
+                removeBtn.type = "delete";
+                removeBtn.innerHTML = "Remove";
+                removeBtn.addEventListener("click", function(e){
+                  e.target.parentNode.remove();
+                })
+            member.appendChild(title);
+            member.appendChild(attributes);
+            member.appendChild(removeBtn);
+            household.appendChild(member);
+          };
           document.querySelector("[type=submit]").addEventListener("click", function(e){
             e.preventDefault();
             if(ageValidates() && relValidates()){
-              console.log("success")
+              addMember();
+              error.remove();
+              form.reset();
+            }else{
             }
           })
         </script>
