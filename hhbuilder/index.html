@@ -87,13 +87,14 @@
           };
           var addAttribute = function(formEl, list){
             var attribute = document.createElement("li");
+                attribute.className = "attribute";
             var label = getLabel(formEl);
             var value = getValue(formEl);
             attribute.appendChild(label);
             attribute.appendChild(value);
             list.appendChild(attribute);
           };
-          var removeBtn = function(){
+          var makeRemoveBtn = function(){
             var removeBtn = document.createElement("button");
             removeBtn.type = "delete";
             removeBtn.innerHTML = "Remove";
@@ -116,10 +117,10 @@
                 title.innerHTML = "Member";
             member.appendChild(title);
             member.appendChild(getAttributes());
-            member.appendChild(removeBtn());
+            member.appendChild(makeRemoveBtn());
             household.appendChild(member);
           };
-          document.querySelector("[type=submit]").addEventListener("click", function(e){
+          document.querySelector("[class=add]").addEventListener("click", function(e){
             e.preventDefault();
             if(ageValidates() && relValidates()){
               addMember();
@@ -127,6 +128,18 @@
               form.reset();
             }else{
             }
+          });
+          document.querySelector("[type=submit]").addEventListener("click", function(e){
+            e.preventDefault();
+            var json = {}
+            for(var i=0; i<household.children.length; i++){
+              json["member " + i] = {};
+              var attributes = household.children[i].getElementsByClassName("attribute")
+              for(var j=0; j<attributes.length; j++){
+                json["member " + i][attributes[j].firstChild.innerHTML] = attributes[j].lastChild.innerHTML;
+              }
+            }
+            console.log(json)
           });
         </script>
     </body>
