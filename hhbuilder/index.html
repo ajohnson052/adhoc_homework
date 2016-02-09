@@ -50,7 +50,29 @@
         </div>
         <pre class="debug"></pre>
         <script>
-            // your code goes here ...
+          var age = document.querySelector("[name=age]");
+          var rel = document.querySelector("[name=rel]");
+          var error = document.createElement("div");
+              error.className = "error"
+          var form = document.getElementsByTagName("form")[0]
+          var makeError = function(message){
+            error.remove()
+            error.innerHTML = message;
+            form.parentNode.insertBefore(error, form)
+            return false;
+          };
+          var ageValidates = function(){
+            return (age.value > 0) ? true : makeError("Please enter a valid age");
+          };
+          var relValidates = function(){
+            return (rel.value) ? true : makeError("Please enter a relationship");
+          };
+          document.querySelector("[type=submit]").addEventListener("click", function(e){
+            e.preventDefault();
+            if(ageValidates() && relValidates()){
+              console.log("success")
+            }
+          })
         </script>
     </body>
 </html>
