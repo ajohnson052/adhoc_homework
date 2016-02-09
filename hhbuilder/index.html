@@ -93,24 +93,30 @@
             attribute.appendChild(value);
             list.appendChild(attribute);
           };
+          var removeBtn = function(){
+            var removeBtn = document.createElement("button");
+            removeBtn.type = "delete";
+            removeBtn.innerHTML = "Remove";
+            removeBtn.addEventListener("click", function(e){
+              e.target.parentNode.remove();
+            });
+            return removeBtn;
+          };
+          var getAttributes = function(){
+            var attributes = document.createElement("ul");
+            var memberAge = addAttribute(age, attributes);
+            var memberRel = addAttribute(rel, attributes);
+            var memberSmoker = addAttribute(smoker, attributes);
+            return attributes;
+          };
           var addMember = function(){
             var member = document.createElement("div");
                 member.className = "member";
             var title = document.createElement("h2");
                 title.innerHTML = "Member";
-            var attributes = document.createElement("ul");
-            var memberAge = addAttribute(age, attributes);
-            var memberRel = addAttribute(rel, attributes);
-            var memberSmoker = addAttribute(smoker, attributes);
-            var removeBtn = document.createElement("button");
-                removeBtn.type = "delete";
-                removeBtn.innerHTML = "Remove";
-                removeBtn.addEventListener("click", function(e){
-                  e.target.parentNode.remove();
-                })
             member.appendChild(title);
-            member.appendChild(attributes);
-            member.appendChild(removeBtn);
+            member.appendChild(getAttributes());
+            member.appendChild(removeBtn());
             household.appendChild(member);
           };
           document.querySelector("[type=submit]").addEventListener("click", function(e){
@@ -121,7 +127,7 @@
               form.reset();
             }else{
             }
-          })
+          });
         </script>
     </body>
 </html>
